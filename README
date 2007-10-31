@@ -1,0 +1,60 @@
+Acts As Taskable
+===========================
+
+Acts as Taskable is a Rails plugin that allows any ActiveRecord? class to automatically accept tasks
+
+== Install ==
+ * Run the following command:
+ 
+ script/plugin install http://acts-as-taskable.googlecode.com/svn/trunk/acts_as_taskable
+ 
+ * Create a new rails migration and add the following self.up and self.down methods
+ 
+  def self.up
+    create_table "tasks", :force => true do |t|
+      t.column "title", :string, :limit => 150, :default => ""
+      t.column "description", :text, :default => ""
+      t.column "created_at", :datetime, :null => false
+	  t.column "due_by",	 :datetime
+	  t.column "completed",  :boolean, :null => false, :default => false
+      t.column "taskable_id", :integer, :default => 0, :null => false
+      t.column "taskable_type", :string, :limit => 25, :default => "", :null => false
+      t.column "user_id", :integer, :default => 0, :null => false
+    end
+  
+    add_index "tasks", ["user_id"], :name => "fk_tasks_user"
+  end
+
+  def self.down
+	drop_index "fk_tasks_user"
+    drop_table :tasks
+  end
+
+== Usage == 
+ 
+ * Make you ActiveRecord model act as taskable.
+ 
+ class Model < ActiveRecord::Base
+ 	acts_as_taskable
+ end
+ 
+ * Add a task to a model instance
+ 
+ model = Model.new
+ task = Task.new
+ task.title = 'Kill bill'
+ task.due_bye = Time.now.next_week
+ task.user_id = @user.id   # The id of any specific user.
+ model.tasks << task
+
+ * Retrieve all tasks for a model instance
+ 
+ model.tasks     # Yes! It is AS easy as that
+
+== Credits ==
+
+Juixe Software - Shamelessly copied from the Acts as Commentable plugin
+
+== More ==
+
+http://code.google.com/p/acts-as-taskable/
