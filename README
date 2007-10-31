@@ -26,7 +26,7 @@ Acts as Taskable is a Rails plugin that allows any ActiveRecord? class to automa
   end
 
   def self.down
-	drop_index "fk_tasks_user"
+	remove_index "fk_tasks_user"
     drop_table :tasks
   end
 
