@@ -7,7 +7,7 @@ Acts as Taskable is a Rails plugin that allows any ActiveRecord class to automat
  
  * Run the following command:
  
- script/plugin install http://acts-as-taskable.googlecode.com/svn/trunk/acts_as_taskable
+ script/plugin install git://github.com/tedkulp/acts_as_taskable.git
  
  * Generate and apply the migration:
 
